@@ -10,32 +10,29 @@
    </div>
  
  ## <a name="features">🔋 Features</a>
- ➡️ **Modern User Interface**: A modern and user-friendly interface, offering an intuitive experience for users. <br> <br>
- ➡️ **Summary Generation**: Users can input the URL of a lengthy article and the web app utilizes AI to provide a concise summary of the article content. <br> <br>
- ➡️ **History Saving with Local Storage**: The app includes a history feature, allowing users to save summaries locally, providing a convenient way to revisit and manage their reading history.  <br> <br>
- ➡️ **Copy to Clipboard Functionality**: Enables users to easily share or store the summarized content by copying it to their clipboard.  <br> <br>
- ➡️ **Advanced RTK Query API Requests**: Utilizes the advanced capabilities of Redux Toolkit (RTK) Query for making API requests. These requests fire conditionally based on specific criteria, optimizing data fetching and management.  <br> <br>
+ ✅ **Modern User Interface** - A modern and user-friendly interface, offering an intuitive experience for users. <br> <br>
+ ✅ **Summary Generation** - Users can input the URL of a lengthy article and the web app utilizes AI to provide a concise summary of the article content. <br> <br>
+ ✅ **History Saving with Local Storage** - The app includes a history feature, allowing users to save summaries locally, providing a convenient way to revisit and manage their reading history.      <br> <br>
+ ✅ **Copy to Clipboard Functionality** - Enables users to easily share or store the summarized content by copying it to their clipboard. <br> <br>
+ ✅ **Advanced RTK Query API Requests** - Utilizes the advanced capabilities of Redux Toolkit (RTK) Query for making API requests. These requests fire conditionally based on specific criteria, optimizing data fetching and management. <br> <br>
  
  ## <a name="quick-start">🤸 Quick Start</a>
+  
+ **☑️ Prerequisites**
  
- Follow these steps to set up the project locally on your machine.
- 
- **Prerequisites**
- 
- Make sure you have the following installed on your machine:
- 
+Ensure that the following development tools are installed on your machine: 
  - [Git](https://git-scm.com/)
  - [Node.js](https://nodejs.org/en)
  - [npm](https://www.npmjs.com/) (Node Package Manager)
  
- **Cloning the Repository**
+ **☑️ Cloning the Repository**
  
  ```bash
  git clone https://github.com/ranirp1/AI_Article_Summarizer.git
  cd AI_Article_Summarizer
  ```
  
- **Installation**
+ **☑️ Installation**
  
  Install the project dependencies using npm:
  
@@ -43,17 +40,16 @@
  npm install
  ```
  
- **Set Up Environment Variables**
+ **☑️ Set Up Environment Variables**
  
  Create a new file named `.env` in the root of your project and add the following content:
  
  ```env
  VITE_RAPID_API_ARTICLE_KEY=""
  ```
+Replace the placeholder values with your actual credentials. You can obtain these credentials by signing up on the [Rapid API website](https://rapidapi.com/restyler/api/article-extractor-and-summarizer?utm_source=youtube.com%2FJavaScriptMastery&utm_medium=referral&utm_campaign=DevRel).
  
- Replace the placeholder values with your actual credentials. You can obtain these credentials by signing up on the [Rapid API website](https://rapidapi.com/restyler/api/article-extractor-and-summarizer?utm_source=youtube.com%2FJavaScriptMastery&utm_medium=referral&utm_campaign=DevRel).
- 
- **Running the Project**
+ **☑️ Running the Project**
  
  ```bash
  npm run dev
