@@ -15,7 +15,7 @@ const Hero = () => {
               onClick={() =>
                 window.open("https://github.com/ranirp1/AI_Article_Summarizer", "_blank")
               }
-              className='black_btn flex items-center justify-center h-10 px-4'
+              className='black_btn flex items-center justify-center h-8 px-3 rounded-md'
             >
               GitHub
             </button>
