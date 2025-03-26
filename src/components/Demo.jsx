@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {copy, linkIcon, loader, tick} from '../assets';
 import {useLazyGetSummaryQuery} from '../services/article';
 
-const Demo = () => {
+const Demo = ({ sidebarOpen, toggleSidebar }) => {
   const[article, setArticle] = useState({
     url: '',
     summary: '',
@@ -55,7 +55,57 @@ const Demo = () => {
   }
 
   return (
-    <section className= "mt-8 w-full max-w-xl">
+    <section className= "mt-8 w-full max-w-xl relative">
+      {/* History */}
+      <div 
+        className={`fixed right-4 top-[60px] h-auto max-h-[80vh] bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-all duration-300 z-10 ${
+          sidebarOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
+        } w-[352px]`}
+      >
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
+          <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300">History</h3>
+          <button 
+            onClick={toggleSidebar} 
+            className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 text-xl"
+          >
+            ×
+          </button>
+        </div>
+        <div className="p-2 overflow-y-auto h-[calc(100%-4rem)]">
+          {allArticles.length > 0 ? (
+            allArticles.map((item, index) => (
+              <div
+                key={`link-${index}`}
+                onClick={() => {
+                  setArticle(item);
+                  toggleSidebar();
+                }}
+                className="link_card"
+              >
+                <div 
+                  className="copy_btn" 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleCopy(item.url);
+                  }}
+                >
+                  <img
+                    src={copied === item.url ? tick : copy}
+                    alt="copy_icon"
+                    className="w-[40%] h-[40%] object-contain"
+                  />
+                </div>
+                <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
+                  {item.url}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500 dark:text-gray-400 text-center p-4">No history yet</p>
+          )}
+        </div>
+      </div>
+      
       {/* Search */}
       <div className="flex flex-col w-full gap-2">
         <form
@@ -84,31 +134,9 @@ const Demo = () => {
             ↲
           </button>
         </form>
-
-        {/* Browse URL History */}
-        <div className="flex flex-col gap-1 max-h-60 overflow-y-auto">
-          {allArticles.map((item, index) => (
-            <div
-              key={`link-${index}`}
-              onClick={() => setArticle(item)}
-              className="link_card"
-            >
-              <div className="copy_btn" onClick={() => handleCopy(item.url)}>
-                <img
-                  src={copied === item.url ? tick : copy}
-                  alt="copy_icon"
-                  className="w-[40%] h-[40%] object-contain"
-                />
-              </div>
-              <p className="flex-1 font-satoshi text-blue-700 font-medium text-sm truncate">
-                {item.url}
-              </p>
-            </div>
-          ))}
-        </div>
       </div>
 
-      {/* Display Result */}
+      {/* Result */}
       <div className="my-10 max-w-full flex justify-center items-center">
         {isFetching ? (
           <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
