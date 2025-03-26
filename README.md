@@ -12,7 +12,7 @@
  ## <a name="features">🔋 Features</a>
  ✅ **Modern User Interface** - A modern and user-friendly interface, offering an intuitive experience for users. <br> <br>
  ✅ **Summary Generation** - Users can input the URL of a lengthy article and the web app utilizes AI to provide a concise summary of the article content. <br> <br>
- ✅ **History Saving with Local Storage** - The app includes a history feature, allowing users to save summaries locally, providing a convenient way to revisit and manage their reading history.      <br> <br>
+ ✅ **History Saving with Local Storage** - The app includes a history feature, allowing users to save summaries locally, providing a convenient way to revisit and manage their reading history. <br> <br>
  ✅ **Copy to Clipboard Functionality** - Enables users to easily share or store the summarized content by copying it to their clipboard. <br> <br>
  ✅ **Advanced RTK Query API Requests** - Utilizes the advanced capabilities of Redux Toolkit (RTK) Query for making API requests. These requests fire conditionally based on specific criteria, optimizing data fetching and management. <br> <br>
  
@@ -20,10 +20,8 @@
   
  **☑️ Prerequisites**
  
-Ensure that the following development tools are installed on your machine: 
- - [Git](https://git-scm.com/)
- - [Node.js](https://nodejs.org/en)
- - [npm](https://www.npmjs.com/) (Node Package Manager)
+Ensure the following development tools are installed on your machine: 
+ - [Node.js](https://nodejs.org/en) (includes npm) 
  
  **☑️ Cloning the Repository**
  
@@ -40,14 +38,14 @@ Ensure that the following development tools are installed on your machine:
  npm install
  ```
  
- **☑️ Set Up Environment Variables**
+ **☑️ Environment Configuration**
  
- Create a new file named `.env` in the root of your project and add the following content:
+ Create a `.env` file in the root of your project and add the following content:
  
  ```env
  VITE_RAPID_API_ARTICLE_KEY=""
  ```
-Replace the placeholder values with your actual credentials. You can obtain these credentials by signing up on the [Rapid API website](https://rapidapi.com/restyler/api/article-extractor-and-summarizer?utm_source=youtube.com%2FJavaScriptMastery&utm_medium=referral&utm_campaign=DevRel).
+`Note:` Replace the placeholder values with your actual Rapid API credentials. You can obtain these credentials by signing up on the [Rapid API website](https://rapidapi.com/restyler/api/article-extractor-and-summarizer?utm_source=youtube.com%2FJavaScriptMastery&utm_medium=referral&utm_campaign=DevRel).
  
  **☑️ Running the Project**
  
