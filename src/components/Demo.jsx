@@ -58,7 +58,7 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
     <section className= "mt-8 w-full max-w-xl relative">
       {/* History */}
       <div 
-        className={`fixed right-4 top-[60px] h-auto max-h-[80vh] bg-white dark:bg-gray-800 shadow-lg rounded-lg transition-all duration-300 z-10 ${
+        className={`fixed right-4 top-[60px] h-auto max-h-[80vh] bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg transition-all duration-300 z-10 ${
           sidebarOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'
         } w-[352px]`}
       >
