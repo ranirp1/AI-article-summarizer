@@ -109,3 +109,44 @@
 .summary_box {
   @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-4;
 }
+
+/* dark mode styles */
+.dark .main:before {
+  background: radial-gradient(circle, rgba(2, 0, 36, 0) 0, #111827 100%);
+}
+
+.dark .main:after {
+  filter: invert(0);
+  opacity: 0.2;
+}
+
+.dark .app {
+  @apply text-white;
+}
+
+.dark .black_btn {
+  @apply border-white bg-white text-black hover:bg-black hover:text-white hover:border-white;
+}
+
+.dark .url_input {
+  @apply bg-gray-800 border-gray-700 text-white;
+}
+
+.dark .submit_btn {
+  @apply border-gray-700 text-gray-400 hover:border-gray-300 hover:text-gray-300;
+}
+
+.dark .link_card {
+  @apply bg-gray-800 border-gray-700;
+}
+
+.dark .summary_box {
+  @apply border-gray-700 bg-gray-800/20;
+}
+.dark .font-satoshi {
+  @apply text-blue-400;
+}
+
+.dark .font-inter {
+  @apply text-white;
+}
