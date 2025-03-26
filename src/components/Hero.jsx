@@ -9,7 +9,7 @@ const Hero = () => {
     <header className='w-full flex justify-center items-center flex-col'>
       <nav className='flex justify-between items-end w-full max-w-full mx-auto mb-10 pt-3 px-2 sm:px-4'>
           <div className="w-1/3 flex justify-start -ml-16">
-            <img src={logo} alt='sumz_logo' className='w-28 object-contain' />
+            <img src={logo} alt='sumz_logo' className={`w-28 object-contain ${darkMode ? 'filter brightness-150' : ''}`} />
           </div>
           
           <div className="w-1/3 flex justify-end -mr-16 space-x-2">
@@ -33,11 +33,11 @@ const Hero = () => {
           </div>
       </nav>
 
-        <h1 className='head_text dark:text-white'>
+        <h1 className='head_text dark:text-zinc-300'>
           Summarize Articles with <br className='max-md:hidden'/>
-          <span className={`${darkMode ? 'text-orange-400' : 'orange_gradient'}`}>OpenAI GPT-4</span>
+          <span className={`${darkMode ? 'text-orange-300' : 'orange_gradient'}`}>OpenAI GPT-4</span>
         </h1>
-        <h2 className='desc text-gray-700 dark:text-white'>
+        <h2 className='desc text-gray-700 dark:text-zinc-200'>
           Simplify your reading with Summize, an open-source article summarizer
           that transforms lengthy articles into clear and concise summaries
         </h2>
