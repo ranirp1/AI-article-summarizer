@@ -1,6 +1,9 @@
 # AI Article Summarizer Web Application
  A modern web app designed to provide concise summaries of lengthy articles using AI.
- 
+
+## ✨ Experience it Live
+**[Test the summarizer now 🚀](https://ranirp1.github.io/AI_Article_Summarizer/)**
+
  ## <a name="tech-stack">⚙️ Tech Stack</a>
  <div>
      <img src="https://img.shields.io/badge/-React_JS-black?style=for-the-badge&logoColor=white&logo=react&color=61DAFB" alt="react.js" />
