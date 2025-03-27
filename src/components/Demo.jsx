@@ -1,16 +1,23 @@
 import {useState, useEffect} from 'react';
 import {copy, linkIcon, loader, tick} from '../assets';
-import {useLazyGetSummaryQuery} from '../services/article';
+import { useLazyGetSummaryQuery, useLazyGetArticleQuery } from '../services/article';
 
-const Demo = ({sidebarOpen, toggleSidebar}) => {
-  const[article, setArticle] = useState({
+const Demo = ({ sidebarOpen, setSidebarOpen }) => {
+  const [article, setArticle] = useState({
     url: '',
     summary: '',
+    fullText: ''
   });
   const [allArticles, setAllArticles] = useState([]);
   const [copied, setCopied] = useState("");
+  const [activeTab, setActiveTab] = useState("summary"); 
 
-  const [getSummary, {error, isFetching}] = useLazyGetSummaryQuery();
+  const [getSummary, { error: summaryError, isFetching: isSummaryFetching }] = useLazyGetSummaryQuery();
+  const [getArticle, { error: articleError, isFetching: isArticleFetching }] = useLazyGetArticleQuery();
+  
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
 
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(
@@ -24,6 +31,13 @@ const Demo = ({sidebarOpen, toggleSidebar}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setArticle({
+      ...article,
+      summary: '',
+      fullText: ''
+    });
+
     const existingArticle = allArticles.find(
       (item) => item.url === article.url
     );
@@ -31,22 +45,72 @@ const Demo = ({sidebarOpen, toggleSidebar}) => {
     if (existingArticle) {
       return setArticle(existingArticle);
     }
+  }
 
-    const {data} = await getSummary({
-      articleUrl: article.url,
-      length: 3
-    });
+  const handleGetSummary = async () => {
+    if (!article.url) {
+      return;
+    }
+    
+    if (article.summary) {
+      setActiveTab("summary");
+      return;
+    }
+    
+    try {
+      const {data} = await getSummary({
+        articleUrl: article.url,
+        length: 3
+      });
 
-    if (data?.summary) {
-      const newArticle = {...article, summary: data.summary};
-      const updatedAllArticles = [newArticle, ...allArticles];
-      
-      setArticle(newArticle);
-      setAllArticles(updatedAllArticles);
-      
-      localStorage.setItem('articles', JSON.stringify(updatedAllArticles));
+      if (data?.summary) {
+        const newArticle = {...article, summary: data.summary};
+        const updatedAllArticles = [newArticle, ...allArticles.filter(item => item.url !== article.url)];
+        
+        setArticle(newArticle);
+        setAllArticles(updatedAllArticles);
+        setActiveTab("summary");
+        
+        localStorage.setItem('articles', JSON.stringify(updatedAllArticles));
+      }
+    } catch (error) {
+      console.error("Error getting summary:", error);
     }
   }
+  
+  const handleGetFullArticle = async () => {
+    if (!article.url) {
+      return;
+    }
+    
+    if (article.fullText) {
+      setActiveTab("fullText");
+      return;
+    }
+    
+    try {
+      const {data} = await getArticle({
+        articleUrl: article.url
+      });
+
+      if (data?.content) {
+        const newArticle = {...article, fullText: data.content};
+        
+        const existingIndex = allArticles.findIndex(item => item.url === article.url);
+        if (existingIndex !== -1) {
+          const updatedAllArticles = [...allArticles];
+          updatedAllArticles[existingIndex] = newArticle;
+          setAllArticles(updatedAllArticles);
+          localStorage.setItem('articles', JSON.stringify(updatedAllArticles));
+        }
+        
+        setArticle(newArticle);
+        setActiveTab("fullText");
+      }
+    } catch (error) {
+      console.error("Error extracting article:", error);
+    }
+  };
 
   const handleCopy = (copyUrl) => {
     setCopied(copyUrl);
@@ -106,7 +170,7 @@ const Demo = ({sidebarOpen, toggleSidebar}) => {
         </div>
       </div>
       
-      {/* Search */}
+      {/* URL Input */}
       <div className="flex flex-col w-full gap-2">
         <form
           className="relative flex justify-center items-center"
@@ -135,36 +199,85 @@ const Demo = ({sidebarOpen, toggleSidebar}) => {
           </button>
         </form>
       </div>
+      
+      {/* Action Buttons */}
+      {article.url && (
+        <div className="flex gap-2 mt-3">
+          <button 
+            onClick={handleGetSummary}
+            disabled={isSummaryFetching}
+            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all flex-1 ${
+              activeTab === "summary" 
+                ? "bg-blue-700 text-white" 
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            }`}
+          >
+            {isSummaryFetching ? 'Summarizing...' : 'Summary'}
+          </button>
+          
+          <button 
+            onClick={handleGetFullArticle}
+            disabled={isArticleFetching}
+            className={`px-4 py-2 rounded-lg font-medium text-sm transition-all flex-1 ${
+              activeTab === "fullText" 
+                ? "bg-blue-700 text-white" 
+                : "bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"
+            }`}
+          >
+            {isArticleFetching ? 'Extracting...' : 'Article'}
+          </button>
+        </div>
+      )}
 
-      {/* Result */}
-      <div className={`my-4 w-full ${isFetching || error ? 'flex items-center justify-center' : 'relative'} overflow-visible`}>
-        {isFetching ? (
-          <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
-        ) : error ? (
+      {/* Results */}
+      <div className="my-4 w-full overflow-visible">
+        {isSummaryFetching || isArticleFetching ? (
+          <div className="flex items-center justify-center">
+            <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
+          </div>
+        ) : summaryError || articleError ? (
           <p className="font-inter font-bold text-black dark:text-white text-center">
             Well, that wasn't supposed to happen...
             <br />
             <span className="font-satoshi font-normal text-gray-700 dark:text-gray-300">
-              {error?.data?.error}
+              {summaryError?.data?.error || articleError?.data?.error}
             </span>
           </p>
         ) : (
-          article.summary && (
-            <div className="flex flex-col gap-2 -ml-11 w-[120%] relative">
-              <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
-               <span className="blue_gradient">Article Summary</span>
-              </h2>
-              <div className="summary_box">
-                <p className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300">
-                  {article.summary}
-                </p>
+          <>
+            {/* Summary */}
+            {activeTab === "summary" && article.summary && (
+              <div className="flex flex-col gap-2 w-full relative -translate-x-8">
+                <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
+                  <span className="blue_gradient">Article Summary</span>
+                </h2>
+                <div className="summary_box w-[calc(100%+5rem)]">
+                  <p className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300">
+                    {article.summary}
+                  </p>
+                </div>
               </div>
-            </div>
-          )
+            )}
+            
+            {/* Full Article */}
+            {activeTab === "fullText" && article.fullText && (
+              <div className="flex flex-col gap-2 w-full relative -translate-x-8">
+                <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
+                  <span className="blue_gradient">Full Article</span>
+                </h2>
+                <div className="summary_box max-h-[500px] overflow-y-auto w-[calc(100%+5rem)]">
+                  <div 
+                    className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300"
+                    dangerouslySetInnerHTML={{ __html: article.fullText }}
+                  />
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Demo
+export default Demo;

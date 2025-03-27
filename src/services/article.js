@@ -19,7 +19,13 @@ export const articleApi = createApi({
                 return `/summarize?url=${encodeURIComponent(articleUrl)}&length=${length}&lang=${lang}&engine=${engine}`;
             },
         }),
+        getArticle: builder.query({
+            query: (params) => {
+                const { articleUrl } = params;
+                return `/extract?url=${encodeURIComponent(articleUrl)}`;
+            },
+        }),
     }),
 })
 
-export const { useLazyGetSummaryQuery } = articleApi
+export const { useLazyGetSummaryQuery, useLazyGetArticleQuery } = articleApi
