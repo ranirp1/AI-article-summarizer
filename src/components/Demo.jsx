@@ -1,8 +1,8 @@
 import {useState, useEffect} from 'react';
 import {copy, linkIcon, loader, tick} from '../assets';
-import { useLazyGetSummaryQuery, useLazyGetArticleQuery } from '../services/article';
+import {useLazyGetSummaryQuery, useLazyGetArticleQuery} from '../services/article';
 
-const Demo = ({ sidebarOpen, setSidebarOpen }) => {
+const Demo = ({sidebarOpen, setSidebarOpen}) => {
   const [article, setArticle] = useState({
     url: '',
     summary: '',
@@ -12,8 +12,14 @@ const Demo = ({ sidebarOpen, setSidebarOpen }) => {
   const [copied, setCopied] = useState("");
   const [activeTab, setActiveTab] = useState("summary"); 
 
-  const [getSummary, { error: summaryError, isFetching: isSummaryFetching }] = useLazyGetSummaryQuery();
-  const [getArticle, { error: articleError, isFetching: isArticleFetching }] = useLazyGetArticleQuery();
+  const [getSummary, {error: summaryError, isFetching: isSummaryFetching}] = useLazyGetSummaryQuery();
+  const [getArticle, {error: articleError, isFetching: isArticleFetching}] = useLazyGetArticleQuery();
+
+  const [copiedContent, setCopiedContent] = useState({
+    url: "",
+    summary: false,
+    fullText: false
+  });
   
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -118,6 +124,38 @@ const Demo = ({ sidebarOpen, setSidebarOpen }) => {
     setTimeout(() => setCopied(false), 3000);
   }
 
+  const handleCopyContent = (type) => {
+    let textToCopy = '';
+    
+    if (type === 'summary') {
+      textToCopy = article.summary;
+      setCopiedContent({...copiedContent, summary: true});
+      navigator.clipboard.writeText(textToCopy);
+    } else if (type === 'fullText') {
+      const htmlContent = article.fullText;
+      
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlContent;
+  
+      const clipboardItem = new ClipboardItem({
+        'text/html': new Blob([htmlContent], {type: 'text/html'}),
+        'text/plain': new Blob([tempDiv.textContent || tempDiv.innerText || ""], {type: 'text/plain'})
+      });
+      
+      navigator.clipboard.write([clipboardItem])
+        .catch(err => {
+          console.error('Could not copy HTML content: ', err);
+          navigator.clipboard.writeText(tempDiv.textContent || tempDiv.innerText || "");
+        });
+        
+      setCopiedContent({...copiedContent, fullText: true});
+    }
+    
+    setTimeout(() => {
+      setCopiedContent({...copiedContent, summary: false, fullText: false});
+    }, 3000);
+  }
+
   return (
     <section className="mt-8 w-full max-w-xl relative">
       {/* History */}
@@ -173,7 +211,7 @@ const Demo = ({ sidebarOpen, setSidebarOpen }) => {
       {/* URL Input */}
       <div className="flex flex-col w-full gap-2">
         <form
-          className="relative flex justify-center items-center"
+          className="relative flex justify-center items-center w-full"
           onSubmit={handleSubmit}
         >
           <img
@@ -248,9 +286,18 @@ const Demo = ({ sidebarOpen, setSidebarOpen }) => {
             {/* Summary */}
             {activeTab === "summary" && article.summary && (
               <div className="flex flex-col gap-2 w-full relative -translate-x-8">
-                <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
-                  <span className="blue_gradient">Article Summary</span>
-                </h2>
+                <div className="flex justify-between items-center w-[calc(100%+5rem)]">
+                  <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl ml-2">
+                    <span className="blue_gradient">Article Summary</span>
+                  </h2>
+                  <button 
+                    onClick={() => handleCopyContent('summary')}
+                    className="flex items-center gap-1 text-xs py-1.5 px-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full hover:from-gray-300 hover:to-gray-400 dark:hover:from-gray-600 dark:hover:to-gray-500 transition-all text-gray-700 dark:text-gray-200 font-medium shadow-sm"
+                  >  
+                    {copiedContent.summary ? "Copied!" : "Copy"}
+                    <img src={copiedContent.summary ? tick : copy} alt="copy" className="w-3 h-3" />
+                  </button>
+                </div>
                 <div className="summary_box w-[calc(100%+5rem)]">
                   <p className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300">
                     {article.summary}
@@ -258,17 +305,26 @@ const Demo = ({ sidebarOpen, setSidebarOpen }) => {
                 </div>
               </div>
             )}
-            
+
             {/* Full Article */}
             {activeTab === "fullText" && article.fullText && (
               <div className="flex flex-col gap-2 w-full relative -translate-x-8">
-                <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
-                  <span className="blue_gradient">Full Article</span>
-                </h2>
+                <div className="flex justify-between items-center w-[calc(100%+5rem)]">
+                  <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl ml-2">
+                    <span className="blue_gradient">Full Article</span>
+                  </h2>
+                  <button 
+                    onClick={() => handleCopyContent('fullText')}
+                    className="flex items-center gap-1 text-xs py-1.5 px-4 bg-gradient-to-r from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600 rounded-full hover:from-gray-300 hover:to-gray-400 dark:hover:from-gray-600 dark:hover:to-gray-500 transition-all text-gray-700 dark:text-gray-200 font-medium shadow-sm"
+                  >
+                    {copiedContent.fullText ? "Copied!" : "Copy"}
+                    <img src={copiedContent.fullText ? tick : copy} alt="copy" className="w-3 h-3" />
+                  </button>
+                </div>
                 <div className="summary_box max-h-[500px] overflow-y-auto w-[calc(100%+5rem)]">
                   <div 
                     className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300"
-                    dangerouslySetInnerHTML={{ __html: article.fullText }}
+                    dangerouslySetInnerHTML={{__html: article.fullText}}
                   />
                 </div>
               </div>
