@@ -53,4 +53,8 @@ Ensure the following development tools are installed on your machine:
  npm run dev
  ```
  
+## <a name="license">📄 License</a>
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+ 
  <h3 align="center"> ʘ‿ʘ </h3>
