@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react';
 import {copy, linkIcon, loader, tick} from '../assets';
 import {useLazyGetSummaryQuery} from '../services/article';
 
-const Demo = ({ sidebarOpen, toggleSidebar }) => {
+const Demo = ({sidebarOpen, toggleSidebar}) => {
   const[article, setArticle] = useState({
     url: '',
     summary: '',
@@ -14,10 +14,10 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
 
   useEffect(() => {
     const articlesFromLocalStorage = JSON.parse(
-      localStorage.getItem('articles')
+      localStorage.getItem('articles') || '[]'
     );
 
-    if(articlesFromLocalStorage) {
+    if (articlesFromLocalStorage.length) {
       setAllArticles(articlesFromLocalStorage);
     }
   }, []);
@@ -28,7 +28,7 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
       (item) => item.url === article.url
     );
     
-    if(existingArticle) {
+    if (existingArticle) {
       return setArticle(existingArticle);
     }
 
@@ -37,7 +37,7 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
       length: 3
     });
 
-    if(data?.summary) {
+    if (data?.summary) {
       const newArticle = {...article, summary: data.summary};
       const updatedAllArticles = [newArticle, ...allArticles];
       
@@ -55,7 +55,7 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
   }
 
   return (
-    <section className= "mt-8 w-full max-w-xl relative">
+    <section className="mt-8 w-full max-w-xl relative">
       {/* History */}
       <div 
         className={`fixed right-4 top-[60px] h-auto max-h-[80vh] bg-gray-100 dark:bg-gray-800 shadow-lg rounded-lg transition-all duration-300 z-10 ${
