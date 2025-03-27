@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/AI_Article_Summarizer/',
+  base: '/AI_Article_Summarizer/',  
   build: {
     rollupOptions: {
       output: {
