@@ -95,9 +95,9 @@
   @apply rounded-xl border border-gray-200 bg-white/20 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur p-4;
 }
 
-/* dark mode tailwind styles */
+/* Dark Mode */
 .dark .main:before {
-  background: #44536f;
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
   position: absolute;
   content: "";
   z-index: 2;
@@ -116,11 +116,31 @@
   opacity: 0.4;
 }
 .dark .gradient {
+  max-width: 100%; 
   background-image: 
-    radial-gradient(at 70% 20%, hsla(210, 90%, 70%, 0.2) 0px, transparent 50%),
-    radial-gradient(at 30% 80%, hsla(250, 90%, 70%, 0.2) 0px, transparent 50%);
-  filter: blur(50px);
-  opacity: 0.3;
+    radial-gradient(at 80% 0%, hsla(210, 95%, 70%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 20% 100%, hsla(250, 95%, 70%, 0.15) 0px, transparent 50%),
+    radial-gradient(at 0% 30%, hsla(180, 95%, 70%, 0.1) 0px, transparent 45%),
+    radial-gradient(at 100% 70%, hsla(300, 95%, 70%, 0.1) 0px, transparent 45%);
+  filter: blur(60px);
+  opacity: 0.2;
+  animation: gradientShift 25s ease infinite;
+  height: 100%; 
+  top: 0; 
+}
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.dark .gradient {
+  background-size: 200% 200%;
 }
 .dark .app {
   @apply text-white;
@@ -129,7 +149,7 @@
   @apply border-slate-400 bg-slate-400 text-slate-950 hover:bg-gray-200 hover:text-slate-950 hover:border-gray-200;
 }
 .dark .url_input {
-  @apply bg-gray-800 border-gray-700 text-white;
+  @apply bg-gray-600 border-gray-500 text-white;
 }
 .dark .submit_btn {
   @apply border-gray-700 text-gray-400 hover:border-gray-300 hover:text-gray-300;
@@ -138,7 +158,7 @@
   @apply bg-slate-300 border-gray-700;
 }
 .dark .summary_box {
-  @apply border-gray-700 bg-gray-800/20;
+  @apply border-gray-600 bg-gray-600;
 }
 .dark .font-satoshi {
   @apply text-blue-400;

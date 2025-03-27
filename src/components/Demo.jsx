@@ -137,7 +137,7 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
       </div>
 
       {/* Result */}
-      <div className="my-10 max-w-full flex justify-center items-center">
+      <div className="my-4 w-full flex items-center justify-center overflow-visible relative">
         {isFetching ? (
           <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
         ) : error ? (
@@ -150,9 +150,9 @@ const Demo = ({ sidebarOpen, toggleSidebar }) => {
           </p>
         ) : (
           article.summary && (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-2 -ml-12 w-[120%] relative">
               <h2 className="font-satoshi font-bold text-gray-600 dark:text-gray-300 text-xl">
-                Article <span className="blue_gradient">Summary</span>
+               <span className="blue_gradient">Article Summary</span>
               </h2>
               <div className="summary_box">
                 <p className="font-inter font-medium text-sm text-gray-700 dark:text-gray-300">
