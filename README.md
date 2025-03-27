@@ -2,7 +2,7 @@
  A modern web app designed to provide concise summaries of lengthy articles using AI
 
 ## <a name="live-demo">✨ Experience it Live</a>
-**`Link:`** https://ranirp1.github.io/AI_Article_Summarizer/
+**`Link` :** https://ranirp1.github.io/AI_Article_Summarizer/
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 <div>
