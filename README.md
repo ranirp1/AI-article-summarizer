@@ -28,7 +28,7 @@
  
  **☑️ Cloning the Repository**
  ```bash
- https://github.com/ranirp1/AI-article-summarizer.git
+ git clone https://github.com/ranirp1/AI-article-summarizer.git
  cd AI-article-summarizer
  ```
  
