@@ -2,7 +2,7 @@
  A modern web app designed to provide concise summaries of lengthy articles using AI
 
 ## <a name="live-demo">✨ Experience it Live</a>
-**`Link` :** https://ranirp1.github.io/AI_Article_Summarizer/
+**`Link` :** https://ranirp1.github.io/AI-article-summarizer/
 
 ## <a name="tech-stack">⚙️ Tech Stack</a>
 <div>
@@ -28,8 +28,8 @@
  
  **☑️ Cloning the Repository**
  ```bash
- git clone https://github.com/ranirp1/AI_Article_Summarizer.git
- cd AI_Article_Summarizer
+ https://github.com/ranirp1/AI-article-summarizer.git
+ cd AI-article-summarizer
  ```
  
  **☑️ Installation**
